@@ -28,7 +28,7 @@ int main()
     long double h = 41.34616448448;
     printf("%Lf\n", h);
 
-    int z = 32769;
-    printf("%u\n", z);
-    return 0;
+    char z = 'z';
+    printf("%d", z);
+    // printf("%d", z);
 }

@@ -39,7 +39,7 @@ int main()
 
     printf("Exp 1: %d\n", exp1);   // -> 0
     printf("Exp 2: %d\n\n", exp2); // -> 1
-    
+
     printf("Exp 3: %d\n\n", exp3); // -> 1
 
     printf("Exp 4: %d\n", exp4);   // -> 0

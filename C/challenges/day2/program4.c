@@ -5,14 +5,16 @@
 
 void main(void)
 {
-    int n, rev;
-    printf("Enter N: ");
+    int n, rev = 0;
+    printf("Enter Number: ");
     scanf("%d", &n);
 
     while (n != 0)
     {
         int digit = n % 10;
-        rev = n * 10 + digit;
+        rev = rev * 10 + digit;
         n = n / 10;
     }
+
+    printf("Reversed: %d", rev);
 }

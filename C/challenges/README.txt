@@ -1,1 +1,1 @@
-These challenges are given by ChatGPT to imprve logical thinking!
+These challenges are given by ChatGPT to improve logical thinking!

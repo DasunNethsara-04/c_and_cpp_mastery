@@ -8,6 +8,9 @@ int main()
 
     void *ptr;
 
+    // you can't do this...
+    // printf("%d\n", *ptr);
+
     // to display int data
     ptr = &a;
     printf("%d\n", *(int *)ptr);

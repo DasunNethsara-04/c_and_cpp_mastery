@@ -1,4 +1,5 @@
 //
+// Project 1 - Number Guessing Game
 // Created by Dasun Nethsara on 7/23/25.
 //
 
@@ -8,9 +9,7 @@
 
 int generate_random_number(const int range)
 {
-    srand(time(NULL));
-    const int randomNumber = rand() % range;
-    return randomNumber;
+    return rand() % range;
 }
 
 void play_game(const int range)
@@ -24,7 +23,12 @@ void play_game(const int range)
     {
         tries++;
         printf("Enter Your Guess: ");
-        scanf("%d", &input);
+        if (scanf("%d", &input) != 1)
+        {
+            printf("Invalid Input. Please enter a number.\n");
+            while (getchar() != '\n')
+                continue;
+        }
 
         if (input == randomNum)
         {
@@ -35,21 +39,19 @@ void play_game(const int range)
 
         if (input > randomNum)
         {
-            printf("Your guess is grater than the actual number!\n");
+            printf("Your guess is greater than the actual number!\n");
         }
         else if (input < randomNum)
         {
             printf("Your guess is less than the actual number!\n");
-        }
-        else
-        {
-            printf("Invalid Input1\n");
         }
     }
 }
 
 int main(void)
 {
+    srand(time(NULL));
+
     int difficulty = 0;
 
     printf("Choose Difficulty (\n\t1 - Easy\n\t2 - Medium\n\t3 - Hard): ");

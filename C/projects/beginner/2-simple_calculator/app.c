@@ -1,5 +1,5 @@
 //
-// Project 1 - Simple Calculator (CLI)
+// Project 2 - Simple Calculator (CLI)
 // Created by Dasun Nethsara on 7/23/25.
 //
 

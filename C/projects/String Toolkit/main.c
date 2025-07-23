@@ -4,21 +4,16 @@
 #include <stdio.h>
 #include <string.h>
 
-void cpy(char *str1, const char *str2) {
-    while (*str2 != '\0') {
-        *str1 = *str2;
-        str1++;
-        str2++;
-    }
-    *str1 = '\0';
-
+void rev(char *str) {
+    unsigned int len = strlen(str);
+    // while ()
 }
 
 int main() {
-    char str1[] = {};
+    char str1[100] = "";
     char str2[] = "World";
 
-    cpy(str1, str2);
+    rev(str2);
 
-    printf("%s", str1);
+    printf("%s", str2);
 }

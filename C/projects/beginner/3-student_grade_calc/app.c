@@ -8,13 +8,13 @@
 char check_grade(float avgerage)
 {
     char grade;
-    if (avgerage > 80)
+    if (avgerage >= 80)
         grade = 'A';
-    else if (avgerage > 65)
+    else if (avgerage >= 65)
         grade = 'B';
-    else if (avgerage > 55)
+    else if (avgerage >= 55)
         grade = 'C';
-    else if (avgerage > 35)
+    else if (avgerage >= 35)
         grade = 'D';
     else
         grade = 'F';
@@ -31,9 +31,9 @@ float get_total(float arr[])
     return total;
 }
 
-float get_average(int total)
+float get_average(float total)
 {
-    return total / 3;
+    return total / 3.0;
 }
 
 int is_valid_marks(float marks)
@@ -51,13 +51,25 @@ int main()
     for (int i = 0; i < 3; i++)
     {
         temp = 0;
-        printf("Enter subject %d marks: ", i + 1);
-        scanf("%f", &temp);
+        while (1)
+        {
+            printf("Enter subject %d marks: ", i + 1);
+            if (scanf("%f", &temp) != 1)
+            {
+                printf("Invalid Number! Please enter a valid number.\n");
+                while (getchar() != '\n')
+                    continue;
+            }
 
-        if (is_valid_marks(temp))
+            if (!is_valid_marks(temp))
+            {
+                printf("Marks should be between 0 - 100.\n");
+                continue;
+            }
+
             marks[i] = temp;
-        else
-            marks[i] = 0;
+            break;
+        }
     }
 
     total = get_total(marks);

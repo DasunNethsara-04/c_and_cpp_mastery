@@ -39,7 +39,7 @@ int myStrCmp(const char *str1, const char *str2) {
         str1++;
         str2++;
     }
-    return (*str1 != '\0' && *str2 != '\0') ? 0 : 1;
+    return (*str1 == '\0' && *str2 == '\0') ? 0 : 1;
 }
 
 /*
@@ -65,7 +65,7 @@ int main() {
     char string3[] = "Hello";
     char string4[] = "World";
     char string5[] = "Hello";
-    char emptStr[] = "";
+    char emptStr[100];
 
     const unsigned int len = myStrLen(string1);
     printf("Length: %d\n", len);

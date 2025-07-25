@@ -1,5 +1,5 @@
 //
-// Project 4 - Palindrome Checker (string)
+// Project 5 - Palindrome Checker (string)
 // Created by Dasun Nethsara on 7/24/25.
 //
 

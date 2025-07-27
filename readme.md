@@ -77,7 +77,7 @@ The `challenges/` folder includes logic-building problems categorized by topic:
 - Frequency of Characters in a String ......................... ✅
 - Anagram Checker ............................................................. ✅
 - Basic Contact Book using arrays ................................. ✅
-- Mini Quiz App (multiple-choice in CLI) ..................... ⏳
+- Mini Quiz App (multiple-choice in CLI) ..................... ✅
 
 ---
 

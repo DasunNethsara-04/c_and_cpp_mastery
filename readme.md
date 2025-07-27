@@ -55,7 +55,7 @@ The `challenges/` folder includes logic-building problems categorized by topic:
 - Loops
 - Conditional Statements
 - Function-based logic
-- Recursion-based problems (coming soon)
+- Recursion-based problems
 - Sorting and searching (coming soon)
 - File I/O logic (Coming soon)
 

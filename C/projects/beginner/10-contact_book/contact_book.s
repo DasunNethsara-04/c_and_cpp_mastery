@@ -131,13 +131,14 @@ show_all:
 	leaq	.LC4(%rip), %rax
 	movq	%rax, %rdi
 	call	puts@PLT
+	jmp	.L4
 .L5:
 	leaq	.LC5(%rip), %rax
 	movq	%rax, %rdi
 	call	puts@PLT
 	movl	$0, -4(%rbp)
-	jmp	.L6
-.L7:
+	jmp	.L7
+.L8:
 	movl	-4(%rbp), %eax
 	movslq	%eax, %rdx
 	movq	%rdx, %rax
@@ -166,12 +167,11 @@ show_all:
 	movl	$0, %eax
 	call	printf@PLT
 	addl	$1, -4(%rbp)
-.L6:
+.L7:
 	movl	-4(%rbp), %eax
 	cmpl	-36(%rbp), %eax
-	jl	.L7
-	nop
-	nop
+	jl	.L8
+.L4:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -219,19 +219,19 @@ search_by_name:
 	call	strlen@PLT
 	movq	%rax, -72(%rbp)
 	cmpq	$0, -72(%rbp)
-	je	.L9
+	je	.L10
 	movq	-72(%rbp), %rax
 	subq	$1, %rax
 	movzbl	-64(%rbp,%rax), %eax
 	cmpb	$10, %al
-	jne	.L9
+	jne	.L10
 	movq	-72(%rbp), %rax
 	subq	$1, %rax
 	movb	$0, -64(%rbp,%rax)
-.L9:
+.L10:
 	movl	$0, -76(%rbp)
-	jmp	.L10
-.L13:
+	jmp	.L11
+.L14:
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
 	movq	%rdx, %rax
@@ -248,7 +248,7 @@ search_by_name:
 	movq	%rdx, %rdi
 	call	strcmp@PLT
 	testl	%eax, %eax
-	jne	.L11
+	jne	.L12
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
 	movq	%rdx, %rax
@@ -277,23 +277,23 @@ search_by_name:
 	movl	$0, %eax
 	call	printf@PLT
 	movl	$0, %eax
-	jmp	.L14
-.L11:
+	jmp	.L15
+.L12:
 	addl	$1, -76(%rbp)
-.L10:
+.L11:
 	movl	-76(%rbp), %eax
 	cmpl	-100(%rbp), %eax
-	jl	.L13
+	jl	.L14
 	leaq	.LC8(%rip), %rax
 	movq	%rax, %rdi
 	call	puts@PLT
 	movl	$1, %eax
-.L14:
+.L15:
 	movq	-8(%rbp), %rdx
 	subq	%fs:40, %rdx
-	je	.L15
+	je	.L16
 	call	__stack_chk_fail@PLT
-.L15:
+.L16:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -305,6 +305,8 @@ search_by_name:
 	.string	"\nDelete Contact"
 .LC10:
 	.string	"Contact Deleted!"
+.LC11:
+	.string	"Contact not found!"
 	.text
 	.globl	delete_contact
 	.type	delete_contact, @function
@@ -341,20 +343,20 @@ delete_contact:
 	call	strlen@PLT
 	movq	%rax, -72(%rbp)
 	cmpq	$0, -72(%rbp)
-	je	.L17
+	je	.L18
 	movq	-72(%rbp), %rax
 	subq	$1, %rax
 	movzbl	-64(%rbp,%rax), %eax
 	cmpb	$10, %al
-	jne	.L17
+	jne	.L18
 	movq	-72(%rbp), %rax
 	subq	$1, %rax
 	movb	$0, -64(%rbp,%rax)
-.L17:
-	movl	$0, -76(%rbp)
-	jmp	.L18
-.L20:
-	movl	-76(%rbp), %eax
+.L18:
+	movl	$0, -80(%rbp)
+	jmp	.L19
+.L24:
+	movl	-80(%rbp), %eax
 	movslq	%eax, %rdx
 	movq	%rdx, %rax
 	salq	$2, %rax
@@ -370,8 +372,12 @@ delete_contact:
 	movq	%rdx, %rdi
 	call	strcmp@PLT
 	testl	%eax, %eax
-	jne	.L19
-	movl	-76(%rbp), %eax
+	jne	.L20
+	movl	-80(%rbp), %eax
+	movl	%eax, -76(%rbp)
+	jmp	.L21
+.L22:
+	movl	-80(%rbp), %eax
 	cltq
 	leaq	1(%rax), %rdx
 	movq	%rdx, %rax
@@ -383,7 +389,7 @@ delete_contact:
 	movq	%rax, %rdx
 	movq	-88(%rbp), %rax
 	leaq	(%rdx,%rax), %rcx
-	movl	-76(%rbp), %eax
+	movl	-80(%rbp), %eax
 	movslq	%eax, %rdx
 	movq	%rdx, %rax
 	salq	$2, %rax
@@ -397,7 +403,7 @@ delete_contact:
 	movq	%rcx, %rsi
 	movq	%rax, %rdi
 	call	strcpy@PLT
-	movl	-76(%rbp), %eax
+	movl	-80(%rbp), %eax
 	cltq
 	leaq	1(%rax), %rdx
 	movq	%rdx, %rax
@@ -407,7 +413,7 @@ delete_contact:
 	movq	%rax, %rdx
 	movq	-96(%rbp), %rax
 	leaq	(%rdx,%rax), %rcx
-	movl	-76(%rbp), %eax
+	movl	-80(%rbp), %eax
 	movslq	%eax, %rdx
 	movq	%rdx, %rax
 	addq	%rax, %rax
@@ -419,13 +425,13 @@ delete_contact:
 	movq	%rcx, %rsi
 	movq	%rax, %rdi
 	call	strcpy@PLT
-.L19:
 	addl	$1, -76(%rbp)
-.L18:
+.L21:
 	movq	-104(%rbp), %rax
 	movl	(%rax), %eax
+	subl	$1, %eax
 	cmpl	%eax, -76(%rbp)
-	jl	.L20
+	jl	.L22
 	movq	-104(%rbp), %rax
 	movl	(%rax), %eax
 	leal	-1(%rax), %edx
@@ -434,12 +440,23 @@ delete_contact:
 	leaq	.LC10(%rip), %rax
 	movq	%rax, %rdi
 	call	puts@PLT
-	nop
+	jmp	.L17
+.L20:
+	addl	$1, -80(%rbp)
+.L19:
+	movq	-104(%rbp), %rax
+	movl	(%rax), %eax
+	cmpl	%eax, -80(%rbp)
+	jl	.L24
+	leaq	.LC11(%rip), %rax
+	movq	%rax, %rdi
+	call	puts@PLT
+.L17:
 	movq	-8(%rbp), %rax
 	subq	%fs:40, %rax
-	je	.L21
+	je	.L25
 	call	__stack_chk_fail@PLT
-.L21:
+.L25:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -447,27 +464,27 @@ delete_contact:
 .LFE3:
 	.size	delete_contact, .-delete_contact
 	.section	.rodata
-.LC11:
-	.string	"\nCLI Phone Book"
 .LC12:
-	.string	"Choose an option to continue!"
+	.string	"\nCLI Phone Book"
 .LC13:
-	.string	"1 - Create New Contact"
+	.string	"Choose an option to continue!"
 .LC14:
-	.string	"2 - Show all contacts"
+	.string	"1 - Create New Contact"
 .LC15:
-	.string	"3 - Search by Name"
+	.string	"2 - Show all contacts"
 .LC16:
-	.string	"4 - Delete Contact"
+	.string	"3 - Search by Name"
 .LC17:
-	.string	"5 - Exit"
+	.string	"4 - Delete Contact"
 .LC18:
-	.string	"Choice: "
+	.string	"5 - Exit"
 .LC19:
-	.string	"%d"
+	.string	"Choice: "
 .LC20:
-	.string	"Bye!"
+	.string	"%d"
 .LC21:
+	.string	"Bye!"
+.LC22:
 	.string	"Invalid Choice"
 	.text
 	.globl	main
@@ -488,10 +505,7 @@ main:
 	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
 	movl	$0, -6216(%rbp)
-.L34:
-	leaq	.LC11(%rip), %rax
-	movq	%rax, %rdi
-	call	puts@PLT
+.L38:
 	leaq	.LC12(%rip), %rax
 	movq	%rax, %rdi
 	call	puts@PLT
@@ -512,44 +526,47 @@ main:
 	call	puts@PLT
 	leaq	.LC18(%rip), %rax
 	movq	%rax, %rdi
+	call	puts@PLT
+	leaq	.LC19(%rip), %rax
+	movq	%rax, %rdi
 	movl	$0, %eax
 	call	printf@PLT
 	leaq	-6212(%rbp), %rax
 	movq	%rax, %rsi
-	leaq	.LC19(%rip), %rax
+	leaq	.LC20(%rip), %rax
 	movq	%rax, %rdi
 	movl	$0, %eax
 	call	__isoc99_scanf@PLT
-	jmp	.L23
-.L24:
+	jmp	.L27
+.L28:
 	nop
-.L23:
+.L27:
 	call	getchar@PLT
 	cmpl	$10, %eax
-	jne	.L24
+	jne	.L28
 	movl	-6212(%rbp), %eax
 	cmpl	$5, %eax
-	ja	.L25
+	ja	.L29
 	movl	%eax, %eax
 	leaq	0(,%rax,4), %rdx
-	leaq	.L27(%rip), %rax
+	leaq	.L31(%rip), %rax
 	movl	(%rdx,%rax), %eax
 	cltq
-	leaq	.L27(%rip), %rdx
+	leaq	.L31(%rip), %rdx
 	addq	%rdx, %rax
 	notrack jmp	*%rax
 	.section	.rodata
 	.align 4
 	.align 4
-.L27:
-	.long	.L25-.L27
-	.long	.L31-.L27
-	.long	.L30-.L27
-	.long	.L29-.L27
-	.long	.L28-.L27
-	.long	.L26-.L27
-	.text
 .L31:
+	.long	.L29-.L31
+	.long	.L35-.L31
+	.long	.L34-.L31
+	.long	.L33-.L31
+	.long	.L32-.L31
+	.long	.L30-.L31
+	.text
+.L35:
 	movl	-6216(%rbp), %eax
 	leaq	-6208(%rbp), %rcx
 	movslq	%eax, %rdx
@@ -572,51 +589,51 @@ main:
 	movq	%rax, %rdx
 	movq	%rcx, %rdi
 	call	add_contact
-	jmp	.L32
-.L30:
+	jmp	.L36
+.L34:
 	movl	-6216(%rbp), %edx
 	leaq	-6208(%rbp), %rcx
 	leaq	-5008(%rbp), %rax
 	movq	%rcx, %rsi
 	movq	%rax, %rdi
 	call	show_all
-	jmp	.L32
-.L29:
+	jmp	.L36
+.L33:
 	movl	-6216(%rbp), %edx
 	leaq	-6208(%rbp), %rcx
 	leaq	-5008(%rbp), %rax
 	movq	%rcx, %rsi
 	movq	%rax, %rdi
 	call	search_by_name
-	jmp	.L32
-.L28:
+	jmp	.L36
+.L32:
 	leaq	-6216(%rbp), %rdx
 	leaq	-6208(%rbp), %rcx
 	leaq	-5008(%rbp), %rax
 	movq	%rcx, %rsi
 	movq	%rax, %rdi
 	call	delete_contact
-	jmp	.L32
-.L26:
-	leaq	.LC20(%rip), %rax
-	movq	%rax, %rdi
-	call	puts@PLT
-	movl	$0, %eax
-	jmp	.L35
-.L25:
+	jmp	.L36
+.L30:
 	leaq	.LC21(%rip), %rax
 	movq	%rax, %rdi
 	call	puts@PLT
+	movl	$0, %eax
+	jmp	.L39
+.L29:
+	leaq	.LC22(%rip), %rax
+	movq	%rax, %rdi
+	call	puts@PLT
 	movl	$1, %eax
-	jmp	.L35
-.L32:
-	jmp	.L34
-.L35:
+	jmp	.L39
+.L36:
+	jmp	.L38
+.L39:
 	movq	-8(%rbp), %rdx
 	subq	%fs:40, %rdx
-	je	.L36
+	je	.L40
 	call	__stack_chk_fail@PLT
-.L36:
+.L40:
 	leave
 	.cfi_def_cfa 7, 8
 	ret

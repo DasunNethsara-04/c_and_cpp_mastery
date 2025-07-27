@@ -35,7 +35,10 @@ void add_contact(char *name, char *number, int *count)
 void show_all(const char names[][MAX_NAME_LEN], const char nums[][MAX_NUM_LEN], const int count)
 {
     if (count < 1)
+    {
         printf("No Contacts!\n");
+        return;
+    }
 
     printf("\nContact Book\n");
     for (int i = 0; i < count; i++)
@@ -88,12 +91,17 @@ void delete_contact(char names[][MAX_NAME_LEN], char nums[][MAX_NUM_LEN], int *c
         // printf("%d. %s - %s\n", i + 1, names[i], nums[i]);
         if (strcmp(names[i], name) == 0)
         {
-            strcpy(names[i], names[i + 1]);
-            strcpy(nums[i], nums[i + 1]);
+            for (int j = i; j < *count - 1; j++)
+            {
+                strcpy(names[i], names[i + 1]);
+                strcpy(nums[i], nums[i + 1]);
+            }
+            --(*count);
+            printf("Contact Deleted!\n");
+            return;
         }
     }
-    --(*count);
-    printf("Contact Deleted!\n");
+    printf("Contact not found!\n");
 }
 
 int main()

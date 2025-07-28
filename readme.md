@@ -85,7 +85,7 @@ The `challenges/` folder includes logic-building problems categorized by topic:
 
 > Start using structs, arrays, functions, and file operations.
 
-- Contact Book with Structs and File Saving ................... ⏳
+- Contact Book with Structs and File Saving ................... ✅
 - Student Marksheet App (multi-student support) .......... ⏳
 - Tic-Tac-Toe CLI Game (2 players) ................................ ⏳
 - Library Management System ......................................... ⏳
@@ -143,7 +143,8 @@ Master C for:
 
 ✅ Daily learning: Day 1–12 completed  
 ✅ Logic challenges: 10+ done  
-✅ Beginner projects: 10/11 done  
-⏳ Intermediate & advanced projects: Upcoming
+✅ Beginner projects: 11/11 done  
+✅ Intermediate: 1/9 done
+⏳ Advanced and Systems projects: Upcoming
 
 Stay tuned for more updates!

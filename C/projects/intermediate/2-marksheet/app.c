@@ -88,8 +88,12 @@ int add_student(struct Student *student) {
     // get the subject marks
     for (int i = 0; i < MAX_SUBJECTS; i++) {
         printf("Enter Subject %d marks: ", i + 1);
-        scanf("%f", &student->marks[i]);
-        while (getchar() != '\n')continue;
+        if (scanf("%f", &student->marks[i]) != 1) {
+            printf("Invalid Input. Try again!\n");
+            while (getchar() != '\n')continue;
+            i--;
+            continue;
+        }
     }
 
     // calculate the stats

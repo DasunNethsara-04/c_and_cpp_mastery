@@ -10,7 +10,7 @@ asm:
 	$(CC) $(SRC) -S -o $(TARGET).s
 
 del_db:
-	rm -f contacts.txt
+	rm -f marksheet.txt
 
 clean:
 	rm -f $(TARGET)

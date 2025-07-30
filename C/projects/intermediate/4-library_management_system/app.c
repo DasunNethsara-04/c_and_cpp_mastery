@@ -22,9 +22,13 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct
+{
+    char buff[256];
+} Line;
+
 struct Book
 {
-    int id;
     char name[MAX_BOOK_NAME_LEN];
     char author[MAX_USER_NAME_LEN];
     int copies;
@@ -32,7 +36,6 @@ struct Book
 
 struct User
 {
-    int id;
     char name[MAX_USER_NAME_LEN];
     int borrowed[MAX_BORROWABLE_BOOKS];
 };
@@ -187,7 +190,6 @@ int add_book()
     printf("\nAdd New Book\n");
 
     // get user inputs
-    book.id = len;
     printf("Book Name: ");
     fgets(book.name, MAX_BOOK_NAME_LEN, stdin);
     size_t len1 = strlen(book.name);
@@ -206,7 +208,7 @@ int add_book()
         continue;
 
     // write the contents to the file
-    fprintf(fptr, "%d|%s|%s|%d\n", book.id, book.name, book.author, book.copies);
+    fprintf(fptr, "%s|%s|%d\n", book.name, book.author, book.copies);
 
     printf("New Book Saved\n");
 
@@ -216,7 +218,7 @@ int add_book()
 
 int show_all_books()
 {
-    char line[256];
+    Line line;
     struct Book book;
     int books_len = get_length(BOOKS_DB);
     FILE *fptr;
@@ -231,11 +233,10 @@ int show_all_books()
     printf("\nAll Books\n");
     for (int i = 0; i < books_len; i++)
     {
-        if (fgets(line, sizeof(line), fptr) != NULL)
+        if (fgets(&line, sizeof(line), fptr) != NULL)
         {
-            sscanf(line, "%d|%[^\n|]|%[^\n|]|%d", &book.id, book.name, book.author, &book.copies);
-            printf("\nBook ID: %d\n", book.id);
-            printf("Book Name: %s\n", book.name);
+            sscanf(&line, "%[^\n|]|%[^\n|]|%d", book.name, book.author, &book.copies);
+            printf("\nBook Name: %s\n", book.name);
             printf("Book Author: %s\n", book.author);
             printf("No. of copies available: %d\n", book.copies);
             printf("----------------------------\n");
@@ -249,7 +250,7 @@ int show_all_books()
 int search_book()
 {
     FILE *fptr;
-    char line[256];
+    Line line;
     struct Book book;
     char book_name[MAX_BOOK_NAME_LEN];
     int books_len = get_length(BOOKS_DB);
@@ -272,13 +273,12 @@ int search_book()
 
     for (int i = 0; i < books_len; i++)
     {
-        if (fgets(line, sizeof(line), fptr) != NULL)
+        if (fgets(&line, sizeof(line), fptr) != NULL)
         {
-            sscanf(line, "%d|%[^\n|]|%[^\n|]|%d", &book.id, book.name, book.author, &book.copies);
+            sscanf(&line, "%[^\n|]|%[^\n|]|%d", book.name, book.author, &book.copies);
             if (strcmp(book_name, book.name) == 0)
             {
-                printf("\nBook ID: %d\n", book.id);
-                printf("Book Name: %s\n", book.name);
+                printf("\nBook Name: %s\n", book.name);
                 printf("Book Author: %s\n", book.author);
                 printf("No. of copies available: %d\n\n", book.copies);
 
@@ -298,7 +298,7 @@ int edit_book(int role)
 {
     FILE *fptr1;
     FILE *fptr2;
-    char line[256];
+    Line line;
     struct Book books[MAX_BOOKS];
     char query[MAX_BOOK_NAME_LEN];
     int books_len = get_length(BOOKS_DB);
@@ -330,9 +330,9 @@ int edit_book(int role)
 
     for (int i = 0; i < books_len; i++)
     {
-        if (fgets(line, sizeof(line), fptr1) != NULL)
+        if (fgets(&line, sizeof(line), fptr1) != NULL)
         {
-            sscanf(line, "%d|%[^\n|]|%[^\n|]|%d", &books[i].id, &books[i].name, &books[i].author, &books[i].copies);
+            sscanf(&line, "%[^\n|]|%[^\n|]|%d", &books[i].name, &books[i].author, &books[i].copies);
             if (strcmp(query, books[i].name) == 0)
             {
                 // book found
@@ -378,7 +378,7 @@ int edit_book(int role)
     // write the content in the book[] into the file
     for (int i = 0; i < books_len; i++)
     {
-        fprintf(fptr2, "%d|%s|%s|%d\n", books[i].id, books[i].name, books[i].author, books[i].copies);
+        fprintf(fptr2, "%s|%s|%d\n", books[i].name, books[i].author, books[i].copies);
     }
     printf("Book updated!\n");
     fclose(fptr2);
@@ -395,7 +395,7 @@ int delete_book(int role)
 
     FILE *fptr1;
     FILE *fptr2;
-    char line[256];
+    Line line;
     char query[MAX_BOOK_NAME_LEN];
     int books_len = get_length(BOOKS_DB);
     struct Book books[MAX_BOOKS];
@@ -407,7 +407,6 @@ int delete_book(int role)
         return 1;
     }
 
-    int temp_id;
     char temp_book_name[MAX_BOOK_NAME_LEN];
     char temp_book_author[MAX_USER_NAME_LEN];
     int temp_copies;
@@ -422,12 +421,11 @@ int delete_book(int role)
 
     for (int i = 0; i < books_len; i++)
     {
-        if (fgets(line, sizeof(line), fptr1) != NULL)
+        if (fgets(&line, sizeof(line), fptr1) != NULL)
         {
-            sscanf(line, "%d|%[^\n|]|%[^\n|]|%d", &temp_id, temp_book_name, temp_book_author, &temp_copies);
+            sscanf(&line, "%[^\n|]|%[^\n|]|%d", temp_book_name, temp_book_author, &temp_copies);
             if (strcmp(query, temp_book_name) != 0)
             {
-                books[i].id = temp_id;
                 strcpy(books[i].name, temp_book_name);
                 strcpy(books[i].author, temp_book_author);
                 books[i].copies = temp_copies;
@@ -454,7 +452,7 @@ int delete_book(int role)
     // write the content in the book[] into the file
     for (int i = 0; i < books_len - 1; i++)
     {
-        fprintf(fptr2, "%d|%s|%s|%d\n", books[i].id, books[i].name, books[i].author, books[i].copies);
+        fprintf(fptr2, "%s|%s|%d\n", books[i].name, books[i].author, books[i].copies);
     }
     printf("Book Deleted!\n");
     fclose(fptr2);

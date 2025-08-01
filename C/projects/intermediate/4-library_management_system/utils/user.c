@@ -10,11 +10,9 @@ int add_user(int role)
         return 1;
     }
 
-    FILE *fptr;
     struct User user;
+    FILE *fptr = fopen(USERS_DB, "a");
     // int users_length = get_length(USERS_DB);
-
-    fptr = fopen(USERS_DB, "a");
     if (fptr == NULL)
     {
         printf("Unable to load the users database!\n");
@@ -47,11 +45,9 @@ int show_all_users(int role)
     }
 
     Line line;
-    FILE *fptr;
     struct User user;
     int users_len = get_length(USERS_DB);
-
-    fptr = fopen(USERS_DB, "r");
+    FILE *fptr = fopen(USERS_DB, "r");
     if (fptr == NULL)
     {
         printf("Unable to load the users database!\n");
@@ -87,12 +83,11 @@ int search_user(int role)
     }
 
     Line line;
-    FILE *fptr;
     struct User user;
     char query[MAX_USER_NAME_LEN];
     int users_len = get_length(USERS_DB);
 
-    fptr = fopen(USERS_DB, "r");
+    FILE *fptr = fopen(USERS_DB, "r");
     if (fptr == NULL)
     {
         printf("Unable to load the users database!\n");
@@ -133,8 +128,8 @@ int search_user(int role)
 
 int edit_user()
 {
-    FILE *fptr1;
     FILE *fptr2;
+    FILE *fptr1 = fopen(USERS_DB, "r");
     Line line;
     struct User users[MAX_USERS];
     char query[MAX_USER_NAME_LEN];
@@ -142,7 +137,6 @@ int edit_user()
 
     char temp_name[MAX_USER_NAME_LEN];
 
-    fptr1 = fopen(USERS_DB, "r");
     if (fptr1 == NULL)
     {
         printf("Unable to load the users database!\n");
@@ -200,5 +194,56 @@ int edit_user()
 
 int delete_user(int role)
 {
-    //
+    FILE *fptr2;
+    FILE *fptr1 = fopen(USERS_DB, "r");
+    Line line;
+    struct User users[MAX_USERS];
+    char query[MAX_USER_NAME_LEN];
+    int users_len = get_length(USERS_DB);
+
+    char temp_name[MAX_USER_NAME_LEN];
+
+    if (fptr1 == NULL)
+    {
+        printf("Unable to load the users database!\n");
+        return 1;
+    }
+
+    printf("\nDelete book\n");
+
+    printf("User Name: ");
+    fgets(query, MAX_USER_NAME_LEN, stdin);
+    size_t len1 = strlen(query);
+    if (len1 > 0 && query[len1 - 1] == '\n')
+        query[len1 - 1] = '\0';
+
+    for (int i = 0; i < users_len; i++)
+    {
+        if (fgets(&line, sizeof(line), fptr1) != NULL)
+        {
+            sscanf(&line, "%[^\n|]|", temp_name);
+            if (strcmp(query, users[i].name) == 0)
+                continue;
+            strcpy(users[i].name, temp_name);
+        }
+    }
+
+    fclose(fptr1);
+
+    // TODO: fix the bug
+    fptr2 = fopen(USERS_DB, "w");
+    if (fptr2 == NULL)
+    {
+        printf("Unable to load the books database!\n");
+        return 1;
+    }
+
+    // write the content in the book[] into the file
+    for (int i = 0; i < users_len; i++)
+    {
+        fprintf(fptr2, "%s|\n", users[i].name);
+    }
+    printf("User updated!\n");
+    fclose(fptr2);
+    return 0;
 }

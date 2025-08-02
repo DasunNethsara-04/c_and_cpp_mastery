@@ -23,5 +23,5 @@ struct Book
 struct User
 {
     char name[MAX_USER_NAME_LEN];
-    struct Book borrowed[MAX_BORROWABLE_BOOKS];
+    char *borrowed;
 };

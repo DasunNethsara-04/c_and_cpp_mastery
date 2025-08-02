@@ -247,3 +247,32 @@ int delete_user(int role)
     fclose(fptr2);
     return 0;
 }
+
+int borrow_book()
+{
+    Line user_line;
+    Line book_line;
+    struct Book book[MAX_BOOKS];
+    struct User user[MAX_USERS];
+    FILE *fptr1 = fopen(BOOKS_DB, "r");
+    FILE *fptr2 = fopen(USERS_DB, "r");
+    int books_len = get_length(BOOKS_DB);
+    int users_len = get_length(USERS_DB);
+
+    char *user_name;
+    char *book_name;
+
+    if (fptr1 == NULL || fptr2 == NULL)
+    {
+        printf("Unable to load the database!\n");
+        return 1;
+    }
+
+    for (int i = 0; i < books_len; i++)
+    {
+        if (fgets(&book_line, sizeof(book_line), fptr1) != NULL)
+        {
+            sscanf(&book_line, "%[^\n|]|");
+        }
+    }
+}

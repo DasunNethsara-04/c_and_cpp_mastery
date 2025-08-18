@@ -87,8 +87,8 @@ The `challenges/` folder includes logic-building problems categorized by topic:
 
 - Contact Book with Structs and File Saving ................... ✅
 - Student Marksheet App (multi-student support) .......... ✅
-- Tic-Tac-Toe CLI Game (2 players) ................................ ⏳
-- Library Management System ......................................... ⏳
+- Tic-Tac-Toe CLI Game (2 players) ................................ ✅
+- Library Management System ......................................... ✅
 - Basic Hospital Management ............................................. ⏳
 - Simple Voting System ...................................................... ⏳
 - To-Do List with Save/Load (file I/O) ............................. ⏳
